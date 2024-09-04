@@ -8,6 +8,14 @@ import (
 
 var Cfg Config
 
+var Mcfg MtlsConfig
+
+type MtlsConfig struct {
+	Crtpath   string
+	Chainpath string
+	Keypath   string
+}
+
 var WgExitGroup sync.WaitGroup
 
 type Config struct {
