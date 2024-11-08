@@ -32,6 +32,7 @@ type Config struct {
 	Zip                bool
 	HepCollector       string
 	CollectOnlySip     bool
+	ReplaceToken       bool
 	HepServer          string
 	HepNodePW          string
 	HepNodeID          uint
