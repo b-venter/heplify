@@ -168,7 +168,7 @@ func (h *HEPOutputer) ConnectServer(n int) (err error) {
 		if config.Cfg.KeepAlive > 0 {
 
 			var tcpCon *net.TCPConn
-			if config.Cfg.Network == "tls" {
+			if config.Cfg.Network == "tls" || config.Cfg.Network == "mtls" {
 				tcpCon = h.client[n].conn.(*tls.Conn).NetConn().(*net.TCPConn)
 			} else {
 				tcpCon = h.client[n].conn.(*net.TCPConn)
