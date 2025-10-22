@@ -163,7 +163,7 @@ func (h *HEPOutputer) ConnectServer(n int) (err error) {
 	h.client[n].writer = bufio.NewWriterSize(h.client[n].conn, 8192)
 
 	//Tcp Keep Alive
-	if config.Cfg.Network == "tcp" || config.Cfg.Network == "tls" {
+	if config.Cfg.Network == "tcp" || config.Cfg.Network == "tls" || config.Cfg.Network == "mtls" {
 		// Keep Alive
 		if config.Cfg.KeepAlive > 0 {
 
