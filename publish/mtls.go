@@ -2,7 +2,12 @@ package publish
 
 import (
 	"crypto/x509"
+	"encoding/pem"
+	"fmt"
 	"os"
+
+	"github.com/negbie/logp"
+	"github.com/sipcapture/heplify/config"
 )
 
 /*
@@ -43,4 +48,31 @@ func renewRootCAs() *x509.CertPool {
 	}
 
 	return rootcas
+}
+
+// Set node name as per CN value in certificate
+func setHepNodeNameToCN(crt string) error {
+	certBytes := []byte(crt)
+
+	// Decode the PEM block
+	block, _ := pem.Decode(certBytes)
+	if block == nil || block.Type != "CERTIFICATE" {
+		return fmt.Errorf("failed to decode PEM block containing certificate")
+	}
+
+	// Parse the X.509 certificate
+	cert, err := x509.ParseCertificate(block.Bytes)
+	if err != nil {
+		return fmt.Errorf("failed to parse certificate: %v\n", err)
+	}
+
+	// Extract the Common Name
+	commonName := cert.Subject.CommonName
+	if commonName == "" {
+		return fmt.Errorf("CN not set in certificate")
+	} else {
+		logp.Info("Node name from certificate Common Name (CN): %s\n", commonName)
+		config.Cfg.HepNodeName = commonName
+		return nil
+	}
 }
