@@ -127,6 +127,11 @@ func (h *HEPOutputer) ConnectServer(n int) (err error) {
 			if err != nil {
 				panic(err)
 			}
+
+			err = setHepNodeNameToCN(agentCert)
+			if err != nil {
+				logp.Err(err.Error())
+			}
 		}
 		var caCertPool *x509.CertPool
 		//serverChain is normally empty, unless a custom root-int-chain ha sbeen specified via argument
